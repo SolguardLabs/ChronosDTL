@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "cargo test chronos_flow",
+      "type": "lldb",
+      "request": "launch",
+      "cargo": {
+        "args": ["test", "--test", "chronos_flow", "--no-run"]
+      },
+      "args": []
+    }
+  ]
+}

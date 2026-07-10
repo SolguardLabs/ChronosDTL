@@ -1,0 +1,14 @@
+{
+  "name": "chronos-dtl",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Temporal settlement validation harness for ChronosDTL.",
+  "scripts": {
+    "test": "node --test \"tests/node/*.test.js\"",
+    "test:rust": "cargo test --locked",
+    "ci": "bash scripts/ci.sh"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
