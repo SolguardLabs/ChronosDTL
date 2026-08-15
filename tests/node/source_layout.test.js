@@ -4,18 +4,18 @@ const fs = require("node:fs");
 
 const { projectPath, readProjectFile, srcLineCount } = require("../helpers/chronosCargo");
 
-test("usa lib.rs como crate de libreria", () => {
+test("the crate uses lib.rs as its library entry point", () => {
   assert.equal(fs.existsSync(projectPath("src", "lib.rs")), true);
   assert.equal(fs.existsSync(projectPath("src", "main.rs")), false);
 });
 
-test("src queda en el rango de tamano esperado", () => {
+test("source size stays within the production range", () => {
   const lines = srcLineCount();
-  assert.ok(lines >= 5000, `src tiene ${lines} lineas`);
-  assert.ok(lines <= 6000, `src tiene ${lines} lineas`);
+  assert.ok(lines >= 6400, `src has ${lines} lines`);
+  assert.ok(lines <= 7600, `src has ${lines} lines`);
 });
 
-test("la estructura separa dominios temporales y financieros", () => {
+test("source layout separates temporal and financial domains", () => {
   for (const directory of [
     "accounts",
     "amount",
@@ -27,12 +27,14 @@ test("la estructura separa dominios temporales y financieros", () => {
     "time",
     "expiry",
     "analytics",
+    "capital",
+    "governance",
   ]) {
     assert.equal(fs.existsSync(projectPath("src", directory, "mod.rs")), true);
   }
 });
 
-test("lib.rs exporta la API principal", () => {
+test("lib.rs exports the primary API", () => {
   const lib = readProjectFile("src", "lib.rs");
   for (const exportName of [
     "ChronosLedger",
@@ -43,6 +45,8 @@ test("lib.rs exporta la API principal", () => {
     "ExpiryReceipt",
     "RateModel",
     "PortfolioReport",
+    "TemporalStressEngine",
+    "GovernanceRegistry",
   ]) {
     assert.equal(lib.includes(exportName), true, exportName);
   }

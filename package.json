@@ -1,14 +1,20 @@
 {
   "name": "chronos-dtl",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
-  "description": "Temporal settlement validation harness for ChronosDTL.",
+  "description": "Deterministic temporal credit and settlement infrastructure for ChronosDTL.",
   "scripts": {
     "test": "node --test \"tests/node/*.test.js\"",
-    "test:rust": "cargo test --locked",
-    "ci": "bash scripts/ci.sh"
+    "test:rust": "cargo test --all-targets --locked",
+    "verify": "node scripts/verify-repository.js",
+    "ci": "cargo fmt --all -- --check && cargo build --all-targets --locked && cargo test --all-targets --locked && cargo clippy --all-targets --all-features --locked -- -D warnings && node --test \"tests/node/*.test.js\" && npm run format:check && npm run verify",
+    "format:check": "prettier --check \".github/**/*.yml\" \"docs/**/*.md\" \"sdk/**/*.js\" \"scripts/**/*.js\" \"tests/**/*.js\" \"*.md\" \"*.json\"",
+    "format:write": "prettier --write \".github/**/*.yml\" \"docs/**/*.md\" \"sdk/**/*.js\" \"scripts/**/*.js\" \"tests/**/*.js\" \"*.md\" \"*.json\""
+  },
+  "devDependencies": {
+    "prettier": "3.9.6"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   }
 }
