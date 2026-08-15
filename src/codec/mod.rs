@@ -13,6 +13,7 @@ pub enum DigestDomain {
     Settlement,
     Expiry,
     Scenario,
+    Governance,
 }
 
 impl Display for DigestDomain {
@@ -27,6 +28,7 @@ impl Display for DigestDomain {
             Self::Settlement => "settlement",
             Self::Expiry => "expiry",
             Self::Scenario => "scenario",
+            Self::Governance => "governance",
         };
         f.write_str(label)
     }

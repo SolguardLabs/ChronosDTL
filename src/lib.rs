@@ -4,11 +4,13 @@ pub mod analytics;
 pub mod asset;
 pub mod audit;
 pub mod batch;
+pub mod capital;
 pub mod codec;
 pub mod debt;
 pub mod error;
 pub mod events;
 pub mod expiry;
+pub mod governance;
 pub mod ids;
 pub mod ledger;
 pub mod locks;
@@ -35,11 +37,19 @@ pub use analytics::{
 pub use asset::{AssetBook, AssetConfig, AssetStatus};
 pub use audit::{AuditFinding, AuditReport, ConservationReport, ExposureReport};
 pub use batch::{BatchBook, BatchInstruction, BatchManifest, BatchStatus, BatchSummary};
+pub use capital::{
+    MAX_STRESS_HORIZON_EPOCHS, PoolStressInput, PoolStressReport, TemporalStressEngine,
+    TemporalStressPolicy, TemporalStressPosition, TemporalStressReport,
+};
 pub use codec::{CanonicalDigest, CanonicalEnvelope, DigestDomain};
 pub use debt::{DebtBreakdown, DebtCalculator, DebtQuote, DebtQuoteInput};
 pub use error::{ChronosError, ChronosResult};
 pub use events::{ChronosEvent, EventJournal, EventKind};
 pub use expiry::{ExpiryDecision, ExpiryEngine, ExpiryPolicy, ExpiryReceipt};
+pub use governance::{
+    ExecutionReceipt, GovernancePolicy, GovernanceRegistry, OperationDecision, OperationLifecycle,
+    OperationStatus, PolicyOperation, PolicyOperationSpec,
+};
 pub use ids::{AccountId, AssetId, BatchId, Epoch, LockId, OperatorId, PoolId, PositionId, TxId};
 pub use ledger::{ChronosLedger, LedgerConfig, LedgerSnapshot};
 pub use locks::{

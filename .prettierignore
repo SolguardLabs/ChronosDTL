@@ -4,3 +4,5 @@ dist/
 coverage/
 Cargo.lock
 bun.lock
+assets/
+tests/private/

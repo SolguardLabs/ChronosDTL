@@ -1,0 +1,68 @@
+name: release-integrity
+
+on:
+  push:
+    branches:
+      - production
+    tags:
+      - "v*"
+  release:
+    types:
+      - published
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify production references
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      EVENT_NAME: ${{ github.event_name }}
+      REF_TYPE: ${{ github.ref_type }}
+      REF_NAME: ${{ github.ref_name }}
+      RELEASE_TAG: ${{ github.event.release.tag_name }}
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Verify aligned references
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main production --tags --force
+          main_sha="$(git rev-parse refs/remotes/origin/main)"
+          production_sha="$(git rev-parse refs/remotes/origin/production)"
+          test "$main_sha" = "$production_sha"
+
+          tag=""
+          if [ "$EVENT_NAME" = "release" ]; then
+            tag="$RELEASE_TAG"
+          elif [ "$REF_TYPE" = "tag" ]; then
+            tag="$REF_NAME"
+          elif [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            tag="v1.0.0"
+          fi
+
+          if [ -n "$tag" ]; then
+            test "$(git cat-file -t "refs/tags/$tag")" = "tag"
+            tag_sha="$(git rev-parse "refs/tags/$tag^{}")"
+            test "$tag_sha" = "$main_sha"
+            test "$tag_sha" = "$production_sha"
+          fi
+
+      - name: Verify published release metadata
+        if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="$RELEASE_TAG"
+          if [ -z "$tag" ]; then tag="v1.0.0"; fi
+          test "$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag" --jq .name)" = "Production 1.0.0"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag" --jq .draft)" = "false"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag" --jq .prerelease)" = "false"
