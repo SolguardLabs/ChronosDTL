@@ -1,11 +1,11 @@
 # ChronosDTL
 
-![Banner de ChronosDTL](./assets/banner.png)
-
 [![CI](https://github.com/SolguardLabs/ChronosDTL/actions/workflows/ci.yml/badge.svg)](https://github.com/SolguardLabs/ChronosDTL/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/badge/release-Production%201.0.0-f4e5cf)](https://github.com/SolguardLabs/ChronosDTL/releases/tag/v1.0.0)
 [![Rust](https://img.shields.io/badge/Rust-1.96-000000)](https://www.rust-lang.org/)
 [![Node.js](https://img.shields.io/badge/client-Node.js%2024-339933)](https://nodejs.org/)
+
+![Banner de ChronosDTL](./assets/banner.png)
 
 ChronosDTL es una infraestructura de crédito y liquidación temporal escrita en Rust. Modela pools, posiciones garantizadas, índices de acumulación, vencimientos efectivos, locks operativos, ventanas de repago, expiración y rutas de tesorería sobre epochs deterministas.
 
